@@ -44,4 +44,34 @@ class SettingsService
     {
         return (bool) $this->get('two_factor_enabled', false);
     }
+
+    public function getSalaryCurrency(): string
+    {
+        return (string) $this->get('salary_currency', 'SAR');
+    }
+
+    public function getWorkingDaysPerMonth(): int
+    {
+        return (int) $this->get('working_days_per_month', 22);
+    }
+
+    public function getWorkingHoursPerDay(): int
+    {
+        return (int) $this->get('working_hours_per_day', 8);
+    }
+
+    public function getOvertimeRate(): float
+    {
+        return (float) $this->get('overtime_rate', 1.5);
+    }
+
+    public function getSocialInsuranceRate(): float
+    {
+        return (float) $this->get('social_insurance_rate', 0.0);
+    }
+
+    public function getTaxRate(): float
+    {
+        return (float) $this->get('tax_rate', 0.0);
+    }
 }

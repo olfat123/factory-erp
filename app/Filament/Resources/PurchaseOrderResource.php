@@ -6,15 +6,16 @@ use App\Enums\PurchaseOrderStatus;
 use App\Filament\Resources\PurchaseOrderResource\Pages;
 use App\Models\PurchaseOrder;
 use App\Services\PurchaseService;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
-use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Actions\Action;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
 
 class PurchaseOrderResource extends Resource
 {
@@ -55,7 +56,7 @@ class PurchaseOrderResource extends Resource
                 Forms\Components\Textarea::make('notes')->label(__('resources.fields.notes'))->columnSpanFull(),
             ])->columns(2),
 
-            \Filament\Schemas\Components\Section::make(__('resources.sections.items'))->schema([
+            Section::make(__('resources.sections.items'))->schema([
                 Forms\Components\Repeater::make('items')
                     ->relationship()
                     ->schema([
@@ -90,7 +91,7 @@ class PurchaseOrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('number')->label(__('resources.fields.number'))->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('supplier.name')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('supplier.name')->searchable()->sortable()->label(__('resources.fields.supplier')),
                 Tables\Columns\TextColumn::make('status')->label(__('resources.fields.status'))
                     ->badge()
                     ->color(fn (PurchaseOrderStatus $state) => $state->color()),

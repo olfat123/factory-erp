@@ -14,6 +14,7 @@ return [
 
     'pages' => [
         'language_settings'      => 'إعدادات اللغة',
+        'settings'               => 'الإعدادات',
         'save_settings'          => 'حفظ الإعدادات',
         'settings_saved'         => 'تم حفظ الإعدادات',
         'default_language'       => 'اللغة الافتراضية',
@@ -118,6 +119,8 @@ return [
         'group'             => 'المجموعة',
         'contact_name'      => 'اسم التواصل',
         'email'             => 'البريد الإلكتروني',
+        'password'          => 'كلمة المرور',
+        'created_at'        => 'تاريخ الإنشاء',
         'phone'             => 'الهاتف',
         'address'           => 'العنوان',
         'bill_of_materials'       => 'قائمة المواد',
@@ -133,6 +136,7 @@ return [
         'po_number'               => 'رقم أمر الشراء',
         'received_by'             => 'استلم بواسطة',
         'batch'                   => 'الدفعة',
+        'expiry_date'             => 'تاريخ الانتهاء',
         'items_to_receive'        => 'الأصناف للاستلام',
         'approve'                 => 'اعتماد',
         'start_production'        => 'بدء الإنتاج',
@@ -264,5 +268,86 @@ return [
         'journal_trend_6m'       => 'اتجاه القيود (6 أشهر)',
         'journal_trend'          => 'اتجاه القيود',
         'recent_journal_entries' => 'أحدث القيود المحاسبية',
+    ],
+
+    // -------------------------------------------------------
+    // HR / Payroll
+    // -------------------------------------------------------
+
+    'user' => [
+        'label'           => 'مستخدم',
+        'plural_label'    => 'المستخدمون',
+        'roles'           => 'الأدوار',
+        'password_helper' => 'اتركه فارغاً للإبقاء على كلمة المرور الحالية.',
+    ],
+
+    // -------------------------------------------------------
+
+    'worker' => [
+        'plural_label'    => 'العمال',
+        'details_section' => 'بيانات العامل',
+        'job_title'       => 'المسمى الوظيفي',
+        'base_salary'     => 'الراتب الأساسي الشهري',
+        'hire_date'       => 'تاريخ التعيين',
+    ],
+
+    'worker_salary' => [
+        'label'                => 'سجل راتب',
+        'plural_label'         => 'رواتب العمال',
+        'section_details'      => 'تفاصيل الراتب',
+        'section_attendance'   => 'الحضور والتعديلات',
+        'section_calculation'  => 'حساب الراتب',
+        'period'               => 'الفترة (الشهر)',
+        'working_days'         => 'أيام العمل الفعلية',
+        'overtime_hours'       => 'ساعات العمل الإضافي',
+        'bonuses'              => 'البدلات والمكافآت',
+        'deductions'           => 'الخصومات',
+        'gross_salary'         => 'الراتب الإجمالي',
+        'social_insurance'     => 'التأمينات الاجتماعية',
+        'tax'                  => 'ضريبة الدخل',
+        'net_salary'           => 'صافي الراتب',
+    ],
+
+    // -------------------------------------------------------
+    // Consumption Receipts
+    // -------------------------------------------------------
+
+    'consumption_receipt' => [
+        'label'               => 'إيصال استهلاك',
+        'plural_label'        => 'إيصالات الاستهلاك',
+        'section_details'     => 'تفاصيل الإيصال',
+        'amount'              => 'المبلغ',
+        'receipt_date'        => 'تاريخ الإيصال',
+        'period_month'        => 'شهر التخصيص',
+        'period_month_helper' => 'الشهر الذي يُخصَّص له هذا المصروف في تكلفة الإنتاج.',
+        'types' => [
+            'electricity'         => 'كهرباء',
+            'telephone'           => 'تليفون',
+            'internet'            => 'إنترنت',
+            'machine_maintenance' => 'صيانة ماكينات',
+            'rent'                => 'إيجار',
+            'other'               => 'أخرى',
+        ],
+    ],
+
+    'settings' => [
+        'sections' => [
+            'general'   => 'عام',
+            'security'  => 'الأمان',
+            'approvals' => 'الموافقات',
+            'salaries'  => 'الرواتب',
+        ],
+        'production_approval'        => 'اشتراط الموافقة على أوامر الإنتاج',
+        'production_approval_helper' => 'يجب الموافقة على أوامر الإنتاج قبل بدء التنفيذ.',
+        'purchase_approval'          => 'اشتراط الموافقة على أوامر الشراء',
+        'purchase_approval_helper'   => 'يجب الموافقة على أوامر الشراء قبل استلام البضائع.',
+        'salary_currency'            => 'عملة الرواتب',
+        'working_days_per_month'     => 'أيام العمل في الشهر',
+        'working_hours_per_day'      => 'ساعات العمل في اليوم',
+        'overtime_rate'              => 'معامل العمل الإضافي',
+        'overtime_rate_helper'       => 'مثال: 1.5 يعني أن العمل الإضافي يُدفع بمعدل 1.5× الأجر الساعي.',
+        'social_insurance_rate'      => 'نسبة التأمينات الاجتماعية',
+        'tax_rate'                   => 'نسبة ضريبة الدخل',
+        'rate_percent_helper'        => 'أدخل النسبة المئوية (مثال: 11 لـ 11%).',
     ],
 ];

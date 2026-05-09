@@ -4,6 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UnitResource\Pages;
 use App\Models\Unit;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
@@ -40,7 +44,14 @@ class UnitResource extends Resource
                 TextColumn::make('abbreviation')->label(__('resources.fields.abbreviation'))->sortable(),
                 TextColumn::make('materials_count')->counts('materials')->label(__('resources.fields.materials_count')),
             ])
-            ->defaultSort('name');
+            ->defaultSort('name')
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([DeleteBulkAction::make()]),
+            ]);
     }
 
     public static function getRelations(): array

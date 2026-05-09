@@ -3,15 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\JournalEntryResource\Pages;
+use App\Models\Account;
 use App\Models\JournalEntry;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ViewAction;
 
 class JournalEntryResource extends Resource
 {
@@ -34,19 +42,73 @@ class JournalEntryResource extends Resource
         return __('resources.journal_entry.plural_label');
     }
 
-    public static function canCreate(): bool
-    {
-        return false;
-    }
-
-    public static function canEdit($record): bool
-    {
-        return false;
-    }
-
     public static function form(Schema $schema): Schema
     {
-        return $schema->schema([]);
+        return $schema->schema([
+            Section::make(__('resources.sections.journal_entry_details'))->schema([
+                TextInput::make('reference_number')
+                    ->label(__('resources.fields.reference_number'))
+                    ->required()
+                    ->maxLength(50)
+                    ->unique(ignoreRecord: true)
+                    ->default(fn () => 'JE-' . now()->format('Ymd') . '-' . str_pad(random_int(1, 9999), 4, '0', STR_PAD_LEFT)),
+
+                Select::make('type')
+                    ->label(__('resources.fields.entry_type'))
+                    ->options([
+                        'adjustment_increase' => __('resources.journal_types.adjustment_increase'),
+                        'adjustment_decrease' => __('resources.journal_types.adjustment_decrease'),
+                    ])
+                    ->required(),
+
+                DateTimePicker::make('posted_at')
+                    ->label(__('resources.fields.posted_at'))
+                    ->native(false)
+                    ->default(now())
+                    ->required(),
+
+                TextInput::make('description')
+                    ->label(__('resources.fields.description'))
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+            ])->columns(2),
+
+            Section::make(__('resources.sections.journal_lines'))->schema([
+                Repeater::make('lines')
+                    ->relationship()
+                    ->schema([
+                        Select::make('account_id')
+                            ->label(__('resources.fields.account_name'))
+                            ->options(Account::where('is_active', true)->orderBy('code')->get()->mapWithKeys(
+                                fn ($a) => [$a->id => "{$a->code} — {$a->translated_name}"]
+                            ))
+                            ->searchable()
+                            ->required(),
+
+                        TextInput::make('debit')
+                            ->label(__('resources.fields.debit'))
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0)
+                            ->required(),
+
+                        TextInput::make('credit')
+                            ->label(__('resources.fields.credit'))
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0)
+                            ->required(),
+
+                        TextInput::make('description')
+                            ->label(__('resources.fields.description'))
+                            ->maxLength(255),
+                    ])
+                    ->columns(4)
+                    ->minItems(2)
+                    ->reorderable(false)
+                    ->addActionLabel(__('resources.fields.add_material')),
+            ]),
+        ])->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -94,14 +156,24 @@ class JournalEntryResource extends Resource
                         'adjustment_increase'  => __('resources.journal_types.adjustment_increase'),
                         'adjustment_decrease'  => __('resources.journal_types.adjustment_decrease'),
                     ]),
+            ])
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([DeleteBulkAction::make()]),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListJournalEntries::route('/'),
-            'view'  => Pages\ViewJournalEntry::route('/{record}'),
+            'index'  => Pages\ListJournalEntries::route('/'),
+            'create' => Pages\CreateJournalEntry::route('/create'),
+            'edit'   => Pages\EditJournalEntry::route('/{record}/edit'),
+            'view'   => Pages\ViewJournalEntry::route('/{record}'),
         ];
     }
 }

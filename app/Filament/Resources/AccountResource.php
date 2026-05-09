@@ -4,6 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AccountResource\Pages;
 use App\Models\Account;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -70,11 +74,9 @@ class AccountResource extends Resource
                     ->label(__('resources.fields.account_code'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('translated_name')
                     ->label(__('resources.fields.account_name'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('name_ar')
-                    ->label(__('resources.fields.account_name_ar')),
+                    ->searchable(query: fn ($query, $search) => $query->where('name', 'like', "%{$search}%")->orWhere('name_ar', 'like', "%{$search}%")),
                 Tables\Columns\TextColumn::make('type')
                     ->label(__('resources.fields.account_type'))
                     ->badge()
@@ -102,6 +104,13 @@ class AccountResource extends Resource
                         'revenue'   => __('resources.account_types.revenue'),
                         'expense'   => __('resources.account_types.expense'),
                     ]),
+            ])
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([DeleteBulkAction::make()]),
             ]);
     }
 

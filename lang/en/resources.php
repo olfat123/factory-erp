@@ -14,6 +14,7 @@ return [
 
     'pages' => [
         'language_settings'      => 'Language Settings',
+        'settings'               => 'Settings',
         'save_settings'          => 'Save Settings',
         'settings_saved'         => 'Settings saved',
         'default_language'       => 'Default Language',
@@ -118,6 +119,8 @@ return [
         'group'             => 'Group',
         'contact_name'      => 'Contact Name',
         'email'             => 'Email',
+        'password'          => 'Password',
+        'created_at'        => 'Created At',
         'phone'             => 'Phone',
         'address'           => 'Address',
         'bill_of_materials'       => 'Bill of Materials',
@@ -133,6 +136,7 @@ return [
         'po_number'               => 'PO Number',
         'received_by'             => 'Received By',
         'batch'                   => 'Batch',
+        'expiry_date'             => 'Expiry Date',
         'items_to_receive'        => 'Items to Receive',
         'approve'                 => 'Approve',
         'start_production'        => 'Start Production',
@@ -264,5 +268,87 @@ return [
         'journal_trend_6m'       => 'Journal Trend (6 months)',
         'journal_trend'          => 'Journal Trend',
         'recent_journal_entries' => 'Recent Journal Entries',
+    ],
+
+    // -------------------------------------------------------
+    // HR / Payroll
+    // -------------------------------------------------------
+
+    'user' => [
+        'label'           => 'User',
+        'plural_label'    => 'Users',
+        'roles'           => 'Roles',
+        'password_helper' => 'Leave blank to keep the current password.',
+    ],
+
+    // -------------------------------------------------------
+
+    'worker' => [
+        'label'           => 'Worker',
+        'plural_label'    => 'Workers',
+        'details_section' => 'Worker Details',
+        'job_title'       => 'Job Title',
+        'base_salary'     => 'Base Monthly Salary',
+        'hire_date'       => 'Hire Date',
+    ],
+
+    'worker_salary' => [
+        'label'                => 'Salary Record',
+        'plural_label'         => 'Workers Salaries',
+        'section_details'      => 'Salary Details',
+        'section_attendance'   => 'Attendance & Adjustments',
+        'section_calculation'  => 'Salary Calculation',
+        'period'               => 'Period (Month)',
+        'working_days'         => 'Actual Working Days',
+        'overtime_hours'       => 'Overtime Hours',
+        'bonuses'              => 'Bonuses',
+        'deductions'           => 'Deductions',
+        'gross_salary'         => 'Gross Salary',
+        'social_insurance'     => 'Social Insurance',
+        'tax'                  => 'Income Tax',
+        'net_salary'           => 'Net Salary',
+    ],
+
+    // -------------------------------------------------------
+    // Consumption Receipts
+    // -------------------------------------------------------
+
+    'consumption_receipt' => [
+        'label'               => 'Consumption Receipt',
+        'plural_label'        => 'Consumption Receipts',
+        'section_details'     => 'Receipt Details',
+        'amount'              => 'Amount',
+        'receipt_date'        => 'Receipt Date',
+        'period_month'        => 'Allocation Month',
+        'period_month_helper' => 'The month this expense is allocated to in production cost.',
+        'types' => [
+            'electricity'         => 'Electricity',
+            'telephone'           => 'Telephone',
+            'internet'            => 'Internet',
+            'machine_maintenance' => 'Machine Maintenance',
+            'rent'                => 'Rent',
+            'other'               => 'Other',
+        ],
+    ],
+
+    'settings' => [
+        'sections' => [
+            'general'   => 'General',
+            'security'  => 'Security',
+            'approvals' => 'Approvals',
+            'salaries'  => 'Salaries',
+        ],
+        'production_approval'        => 'Require Approval for Production Orders',
+        'production_approval_helper' => 'Production orders must be approved before they can start.',
+        'purchase_approval'          => 'Require Approval for Purchase Orders',
+        'purchase_approval_helper'   => 'Purchase orders must be approved before goods can be received.',
+        'salary_currency'            => 'Salary Currency',
+        'working_days_per_month'     => 'Working Days per Month',
+        'working_hours_per_day'      => 'Working Hours per Day',
+        'overtime_rate'              => 'Overtime Rate Multiplier',
+        'overtime_rate_helper'       => 'e.g. 1.5 means overtime is paid at 1.5× the hourly rate.',
+        'social_insurance_rate'      => 'Social Insurance Rate',
+        'tax_rate'                   => 'Income Tax Rate',
+        'rate_percent_helper'        => 'Enter the percentage (e.g. 11 for 11%).',
     ],
 ];

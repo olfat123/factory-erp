@@ -5,8 +5,9 @@ namespace App\Filament\Resources;
 use App\Enums\StockMovementType;
 use App\Filament\Resources\StockMovementResource\Pages;
 use App\Models\StockMovement;
-use Filament\Schemas\Schema;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -46,6 +47,9 @@ class StockMovementResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('movement_type')->label(__('resources.fields.movement_type'))->options(StockMovementType::class),
+            ])
+            ->recordActions([
+                ViewAction::make(),
             ]);
     }
 
@@ -53,6 +57,7 @@ class StockMovementResource extends Resource
     {
         return [
             'index' => Pages\ListStockMovements::route('/'),
+            'view'  => Pages\ViewStockMovement::route('/{record}'),
         ];
     }
 }
