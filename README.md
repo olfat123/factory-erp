@@ -1,58 +1,166 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Factory ERP — Stock & Manufacturing Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel + FilamentPHP ERP-lite application for managing a factory that manufactures 12 products. The system covers the full production lifecycle: from raw material procurement through manufacturing to finished goods inventory, with full Arabic/English bilingual support.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Core Modules
+- **Materials & Inventory** — Raw materials with categories, units, minimum stock alerts, and average cost tracking
+- **Suppliers** — Supplier directory with contact and tax information
+- **Purchase Orders** — Full PO workflow (Draft → Approved → Partially Received → Fully Received → Closed)
+- **Goods Receiving** — Partial receive support, batch creation, and automatic stock movement recording
+- **Bill of Materials (BOM)** — Per-product material lists with quantities and machine assignments
+- **Production Orders** — Auto-calculates required materials from BOM, validates stock, consumes materials, and generates finished goods (Draft → Approved → In Production → Completed → Cancelled)
+- **Machines** — Machine registry with status tracking (Available / Running / Maintenance / Out of Service)
+- **Batch Tracking** — Full traceability for material and production batches
+- **Stock Movements** — Immutable ledger for all inventory changes (purchase receive, production consume, adjustments, returns)
+- **Settings** — Dynamic key/value settings (approval workflows, default language, etc.)
+- **Accounting Integration** — Event-driven abstraction layer ready for future ERP/accounting system integration
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Reports & Exports
+- **Inventory Report** — Current stock, low-stock items, total valuation (Excel + PDF)
+- **Production Report** — Orders, quantities, material costs (Excel + PDF)
+- **Financial Report** — Inventory valuation with per-item cost breakdown (Excel + PDF)
+- PDFs fully support Arabic RTL with connected Arabic text rendering (powered by mPDF)
 
-## Learning Laravel
+### Admin Panel (FilamentPHP v4)
+- Dashboard widgets: low stock alerts, pending orders, recent movements, inventory valuation
+- Full table filters, search, bulk actions, and export support
+- Relation managers and inline creation in forms
+- Role-based access control with Filament Shield
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Multi-language
+- English and Arabic with full RTL layout support
+- Language switcher in the admin panel
+- All UI strings use Laravel translation keys — no hardcoded text
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Tech Stack
 
-## Agentic Development
+| Layer | Technology |
+|---|---|
+| Backend | Laravel 13, PHP 8.4+ |
+| Admin Panel | FilamentPHP v4 (Livewire v3) |
+| Database | MySQL 8+ |
+| Permissions | spatie/laravel-permission + bezhansalleh/filament-shield |
+| Activity Log | spatie/laravel-activitylog |
+| Excel Export | maatwebsite/excel |
+| PDF Export | mpdf/mpdf (Arabic text shaping) |
+| Local Dev | Laravel Valet |
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
+
+## Requirements
+
+- PHP 8.4+
+- Composer
+- MySQL 8+
+- Node.js (for asset compilation)
+- Laravel Valet (optional, for local `.test` domain)
+
+---
+
+## Installation
 
 ```bash
-composer require laravel/boost --dev
+# Clone the repository
+git clone <repo-url> factory-erp
+cd factory-erp
 
-php artisan boost:install
+# Install PHP dependencies
+composer install
+
+# Install JS dependencies
+npm install && npm run build
+
+# Copy environment file and configure
+cp .env.example .env
+php artisan key:generate
+
+# Configure your database in .env, then run migrations and seeders
+php artisan migrate --seed
+
+# Create the first admin user
+php artisan make:filament-user
+
+# Assign super-admin role
+php artisan shield:super-admin --user=1
+
+# Generate Shield permissions for all resources
+php artisan shield:generate --all
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Local development with Valet
 
-## Contributing
+```bash
+cd factory-erp
+valet link factory-erp
+valet isolate php@8.4
+# Access at http://factory-erp.test
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Architecture
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+app/
+├── Actions/
+├── DTOs/
+├── Enums/
+├── Events/
+├── Filament/          # Resources, Pages, Widgets
+├── Http/Controllers/  # Report exports only
+├── Jobs/
+├── Models/
+├── Observers/
+├── Policies/
+├── Services/          # Business logic layer
+└── Support/
+resources/
+├── views/
+│   ├── filament/pages/   # Custom Filament pages (reports)
+│   └── reports/          # PDF blade templates
+lang/
+├── en/resources.php
+└── ar/resources.php
+```
 
-## Security Vulnerabilities
+### Key Design Principles
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **Stock is never updated directly** — all changes flow through `stock_movements` records
+2. **Critical operations use `DB::transaction()`** — goods receiving, production start/complete, adjustments
+3. **Negative stock is blocked** — validated before consumption
+4. **Business logic lives in Services** — controllers and Filament resources are thin
+5. **Event-driven accounting** — `GoodsReceived`, `ProductionCompleted`, `StockAdjusted`, etc. are fired for future integration
+
+---
+
+## Roles & Permissions
+
+| Role | Access |
+|---|---|
+| Admin | Full access |
+| Warehouse Manager | Materials, inventory, stock movements |
+| Production Manager | Production orders, BOM, machines |
+| Purchasing Officer | Suppliers, purchase orders, goods receiving |
+| Accountant | Reports, financial data |
+| Viewer | Read-only access |
+
+---
+
+## Default Credentials
+
+```
+Email:    admin@factory.com
+Password: (set during `make:filament-user`)
+```
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT
