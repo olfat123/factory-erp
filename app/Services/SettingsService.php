@@ -39,4 +39,9 @@ class SettingsService
     {
         return (string) $this->get('default_language', 'en');
     }
+
+    public function isTwoFactorEnabled(): bool
+    {
+        return (bool) $this->get('two_factor_enabled', false);
+    }
 }

@@ -34,7 +34,6 @@ A Laravel + FilamentPHP ERP-lite application for managing a factory that manufac
 ### Multi-language
 - English and Arabic with full RTL layout support
 - Language switcher in the admin panel
-- All UI strings use Laravel translation keys — no hardcoded text
 
 ---
 
@@ -104,41 +103,6 @@ valet isolate php@8.4
 
 ---
 
-## Architecture
-
-```
-app/
-├── Actions/
-├── DTOs/
-├── Enums/
-├── Events/
-├── Filament/          # Resources, Pages, Widgets
-├── Http/Controllers/  # Report exports only
-├── Jobs/
-├── Models/
-├── Observers/
-├── Policies/
-├── Services/          # Business logic layer
-└── Support/
-resources/
-├── views/
-│   ├── filament/pages/   # Custom Filament pages (reports)
-│   └── reports/          # PDF blade templates
-lang/
-├── en/resources.php
-└── ar/resources.php
-```
-
-### Key Design Principles
-
-1. **Stock is never updated directly** — all changes flow through `stock_movements` records
-2. **Critical operations use `DB::transaction()`** — goods receiving, production start/complete, adjustments
-3. **Negative stock is blocked** — validated before consumption
-4. **Business logic lives in Services** — controllers and Filament resources are thin
-5. **Event-driven accounting** — `GoodsReceived`, `ProductionCompleted`, `StockAdjusted`, etc. are fired for future integration
-
----
-
 ## Roles & Permissions
 
 | Role | Access |
@@ -149,15 +113,6 @@ lang/
 | Purchasing Officer | Suppliers, purchase orders, goods receiving |
 | Accountant | Reports, financial data |
 | Viewer | Read-only access |
-
----
-
-## Default Credentials
-
-```
-Email:    admin@factory.com
-Password: (set during `make:filament-user`)
-```
 
 ---
 

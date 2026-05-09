@@ -40,8 +40,10 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('portal')
             ->login()
+            ->passwordReset()
+            ->profile()
             ->colors([
                 'primary' => Color::Indigo,
             ])
@@ -69,9 +71,11 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 \App\Http\Middleware\SetLocale::class,
+                \App\Http\Middleware\SecurityHeaders::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\EnforceTwoFactor::class,
             ]);
     }
 }

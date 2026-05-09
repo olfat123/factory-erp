@@ -17,6 +17,8 @@ return [
         'save_settings'          => 'Save Settings',
         'settings_saved'         => 'Settings saved',
         'default_language'       => 'Default Language',
+        'two_factor_enabled'     => 'Enable Two-Factor Authentication (2FA)',
+        'two_factor_helper'      => 'When enabled, users must verify a 6-digit code sent to their email after each login.',
         'bom_items'              => 'BOM Items',
         'inventory_valuation'    => 'Inventory Valuation',
         'production_cost'        => 'Production Cost Report',
