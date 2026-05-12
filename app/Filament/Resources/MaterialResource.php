@@ -44,7 +44,7 @@ class MaterialResource extends Resource
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('name_ar')->label(__('resources.fields.name_ar'))
-                    ->label('Arabic Name')
+                    ->label(__('resources.fields.name_ar'))
                     ->maxLength(255),
 
                 Forms\Components\Select::make('category_id')->label(__('resources.fields.category'))
@@ -56,7 +56,8 @@ class MaterialResource extends Resource
                     ->preload()
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name')->label(__('resources.fields.name'))->required(),
-                        Forms\Components\TextInput::make('slug')->required(),
+                        Forms\Components\TextInput::make('name_ar')->label(__('resources.fields.name_ar'))->required(),
+                        Forms\Components\TextInput::make('slug')->label(__('resources.fields.slug'))->required(),
                     ]),
 
                 Forms\Components\Select::make('unit_id')->label(__('resources.fields.unit'))
@@ -66,6 +67,12 @@ class MaterialResource extends Resource
                     ->required()
                     ->searchable()
                     ->preload(),
+
+                Forms\Components\TextInput::make('current_stock')->label(__('resources.fields.current_stock'))
+                    ->label(__('materials.current_stock'))
+                    ->numeric()
+                    ->default(0)
+                    ->minValue(0),
 
                 Forms\Components\TextInput::make('minimum_stock')->label(__('resources.fields.minimum_stock'))
                     ->label(__('materials.minimum_stock'))
@@ -77,6 +84,11 @@ class MaterialResource extends Resource
                     ->label(__('materials.average_cost'))
                     ->numeric()
                     ->default(0)
+                    ->minValue(0),
+
+                Forms\Components\TextInput::make('market_cost')
+                    ->label(__('resources.fields.market_cost'))
+                    ->numeric()
                     ->minValue(0),
 
                 Forms\Components\Toggle::make('is_active')->label(__('resources.fields.is_active'))
@@ -95,10 +107,10 @@ class MaterialResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('name')->label(__('resources.fields.name'))
+                Tables\Columns\TextColumn::make('translated_name')->label(__('resources.fields.name'))
                     ->label(__('materials.name'))
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(['name', 'name_ar'])
+                    ->sortable(query: fn ($query, $direction) => $query->orderBy('name', $direction)),
 
                 Tables\Columns\TextColumn::make('category.translated_name')
                     ->label(__('materials.category'))

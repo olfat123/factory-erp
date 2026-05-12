@@ -31,21 +31,28 @@ class InventoryValuationReport extends Page
     {
         return Material::with('category', 'unit')
             ->where('is_active', true)
-            ->orderBy('name')
+            ->orderBy('code')
             ->get()
             ->map(fn (Material $m) => [
                 'code'          => $m->code,
-                'name'          => app()->getLocale() === 'ar' && $m->name_ar ? $m->name_ar : $m->name,
-                'category'      => $m->category?->name,
+                'name'          => $m->translated_name,
+                'category'      => $m->category?->translated_name,
                 'unit'          => $m->unit?->abbreviation,
                 'current_stock' => (float) $m->current_stock,
                 'average_cost'  => (float) $m->average_cost,
                 'total_value'   => (float) $m->current_stock * (float) $m->average_cost,
+                'market_cost'   => (float) $m->market_cost,
+                'market_value'  => (float) $m->current_stock * (float) $m->market_cost,
             ]);
     }
 
     public function getTotalValue(): float
     {
         return $this->getItems()->sum('total_value');
+    }
+
+    public function getTotalMarketValue(): float
+    {
+        return $this->getItems()->sum('market_value');
     }
 }

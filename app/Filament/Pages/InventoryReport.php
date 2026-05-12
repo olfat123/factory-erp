@@ -125,17 +125,19 @@ class InventoryReport extends Page
     {
         return Material::with('category', 'unit')
             ->where('is_active', true)
-            ->orderBy('name')
+            ->orderBy('code')
             ->get()
             ->map(fn (Material $m) => [
                 'code'          => $m->code,
-                'name'          => app()->getLocale() === 'ar' && $m->name_ar ? $m->name_ar : $m->name,
-                'category'      => $m->category?->name,
+                'name'          => $m->translated_name,
+                'category'      => $m->category?->translated_name,
                 'unit'          => $m->unit?->abbreviation,
                 'current_stock' => (float) $m->current_stock,
                 'minimum_stock' => (float) $m->minimum_stock,
                 'average_cost'  => (float) $m->average_cost,
                 'total_value'   => round((float) $m->current_stock * (float) $m->average_cost, 2),
+                'market_cost'   => (float) $m->market_cost,
+                'market_value'  => round((float) $m->current_stock * (float) $m->market_cost, 2),
                 'is_low'        => (float) $m->current_stock <= (float) $m->minimum_stock,
             ]);
     }

@@ -9,6 +9,14 @@
                 {{ number_format($this->getTotalCost(), 2) }}
             </span>
         </div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:0.5rem;padding:1.25rem;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:1rem;font-weight:600;color:#374151;">
+                {{ __('resources.fields.total_market_cost') }}
+            </span>
+            <span style="font-size:1.25rem;font-weight:700;color:#0369a1;">
+                {{ number_format($this->getTotalMarketCost(), 2) }}
+            </span>
+        </div>
 
         {{-- Table --}}
         <div style="overflow-x:auto;">
@@ -21,6 +29,8 @@
                         <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.quantity') }}</th>
                         <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.material_cost') }}</th>
                         <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.unit_cost') }}</th>
+                        <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.market_material_cost') }}</th>
+                        <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.market_unit_cost') }}</th>
                         <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;">{{ __('resources.fields.date') }}</th>
                     </tr>
                 </thead>
@@ -33,11 +43,13 @@
                             <td style="padding:0.5rem 0.75rem;text-align:end;">{{ number_format($order['quantity'], 2) }}</td>
                             <td style="padding:0.5rem 0.75rem;text-align:end;font-weight:600;">{{ number_format($order['material_cost'], 2) }}</td>
                             <td style="padding:0.5rem 0.75rem;text-align:end;">{{ number_format($order['unit_cost'], 2) }}</td>
+                            <td style="padding:0.5rem 0.75rem;text-align:end;font-weight:600;color:#0369a1;">{{ number_format($order['market_material_cost'], 2) }}</td>
+                            <td style="padding:0.5rem 0.75rem;text-align:end;color:#0369a1;">{{ number_format($order['market_unit_cost'], 2) }}</td>
                             <td style="padding:0.5rem 0.75rem;color:#6b7280;">{{ $order['created_at']?->format('Y-m-d') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" style="padding:1.5rem;text-align:center;color:#9ca3af;">
+                            <td colspan="9" style="padding:1.5rem;text-align:center;color:#9ca3af;">
                                 {{ __('resources.pages.no_data') }}
                             </td>
                         </tr>

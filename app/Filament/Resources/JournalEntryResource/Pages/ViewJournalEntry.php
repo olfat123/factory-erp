@@ -4,9 +4,9 @@ namespace App\Filament\Resources\JournalEntryResource\Pages;
 
 use App\Filament\Resources\JournalEntryResource;
 use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class ViewJournalEntry extends ViewRecord

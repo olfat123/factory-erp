@@ -38,13 +38,16 @@ class InventoryReportExport implements FromCollection, WithHeadings, WithMapping
             __('resources.fields.minimum_stock'),
             __('resources.fields.average_cost'),
             __('resources.fields.total_value'),
+            __('resources.fields.market_cost'),
+            __('resources.fields.market_value'),
             __('resources.reports.status'),
         ];
     }
 
     public function map($row): array
     {
-        $totalValue = (float) $row->current_stock * (float) $row->average_cost;
+        $totalValue  = (float) $row->current_stock * (float) $row->average_cost;
+        $marketValue = (float) $row->current_stock * (float) $row->market_cost;
         $isLow = (float) $row->current_stock <= (float) $row->minimum_stock;
 
         return [
@@ -56,6 +59,8 @@ class InventoryReportExport implements FromCollection, WithHeadings, WithMapping
             number_format((float) $row->minimum_stock, 4),
             number_format((float) $row->average_cost, 4),
             number_format($totalValue, 2),
+            number_format((float) $row->market_cost, 4),
+            number_format($marketValue, 2),
             $isLow ? __('resources.reports.low_stock') : __('resources.reports.normal'),
         ];
     }

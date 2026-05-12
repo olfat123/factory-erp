@@ -25,6 +25,7 @@ class Material extends Model
         'minimum_stock',
         'current_stock',
         'average_cost',
+        'market_cost',
         'is_active',
     ];
 
@@ -32,6 +33,7 @@ class Material extends Model
         'minimum_stock' => 'decimal:4',
         'current_stock' => 'decimal:4',
         'average_cost' => 'decimal:4',
+        'market_cost' => 'decimal:4',
         'is_active' => 'boolean',
     ];
 

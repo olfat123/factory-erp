@@ -9,6 +9,14 @@
                 {{ number_format($this->getTotalValue(), 2) }}
             </span>
         </div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:0.5rem;padding:1.25rem;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:1rem;font-weight:600;color:#374151;">
+                {{ __('resources.fields.total_market_cost') }}
+            </span>
+            <span style="font-size:1.25rem;font-weight:700;color:#0369a1;">
+                {{ number_format($this->getTotalMarketValue(), 2) }}
+            </span>
+        </div>
 
         {{-- Table --}}
         <div style="overflow-x:auto;">
@@ -21,6 +29,8 @@
                         <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.current_stock') }}</th>
                         <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.average_cost') }}</th>
                         <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.total_value') }}</th>
+                        <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.market_cost') }}</th>
+                        <th style="padding:0.625rem 0.75rem;border-bottom:1px solid #e5e7eb;text-align:end;">{{ __('resources.fields.market_value') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,10 +42,12 @@
                             <td style="padding:0.5rem 0.75rem;text-align:end;">{{ number_format($item['current_stock'], 4) }} {{ $item['unit'] }}</td>
                             <td style="padding:0.5rem 0.75rem;text-align:end;">{{ number_format($item['average_cost'], 2) }}</td>
                             <td style="padding:0.5rem 0.75rem;text-align:end;font-weight:600;">{{ number_format($item['total_value'], 2) }}</td>
+                            <td style="padding:0.5rem 0.75rem;text-align:end;color:#0369a1;">{{ number_format($item['market_cost'], 2) }}</td>
+                            <td style="padding:0.5rem 0.75rem;text-align:end;font-weight:600;color:#0369a1;">{{ number_format($item['market_value'], 2) }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" style="padding:1.5rem;text-align:center;color:#9ca3af;">
+                            <td colspan="7" style="padding:1.5rem;text-align:center;color:#9ca3af;">
                                 {{ __('resources.pages.no_data') }}
                             </td>
                         </tr>

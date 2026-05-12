@@ -34,19 +34,24 @@ class ProductionCostReport extends Page
             ->orderByDesc('created_at')
             ->get()
             ->map(function (ProductionOrder $order) {
-                $materialCost = $order->items->sum(
+                $actualCost = $order->items->sum(
                     fn ($i) => $i->consumed_quantity * ($i->material->average_cost ?? 0)
+                );
+                $marketCost = $order->items->sum(
+                    fn ($i) => $i->consumed_quantity * ($i->material->market_cost ?? $i->material->average_cost ?? 0)
                 );
                 $qty = (float) ($order->completed_quantity ?? $order->quantity);
 
                 return [
-                    'id'            => $order->id,
-                    'product'       => $order->product?->name,
-                    'status'        => $order->status,
-                    'quantity'      => $qty,
-                    'material_cost' => $materialCost,
-                    'unit_cost'     => $qty > 0 ? $materialCost / $qty : 0,
-                    'created_at'    => $order->created_at,
+                    'id'                   => $order->id,
+                    'product'              => $order->product?->name,
+                    'status'               => $order->status,
+                    'quantity'             => $qty,
+                    'material_cost'        => $actualCost,
+                    'unit_cost'            => $qty > 0 ? $actualCost / $qty : 0,
+                    'market_material_cost' => $marketCost,
+                    'market_unit_cost'     => $qty > 0 ? $marketCost / $qty : 0,
+                    'created_at'           => $order->created_at,
                 ];
             });
     }
@@ -54,5 +59,10 @@ class ProductionCostReport extends Page
     public function getTotalCost(): float
     {
         return $this->getOrders()->sum('material_cost');
+    }
+
+    public function getTotalMarketCost(): float
+    {
+        return $this->getOrders()->sum('market_material_cost');
     }
 }

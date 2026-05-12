@@ -33,7 +33,7 @@ class SecurityHeaders
             "default-src 'self'; " .
             "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " .
             "style-src 'self' 'unsafe-inline'; " .
-            "img-src 'self' data: blob:; " .
+            "img-src 'self' data: blob: https://www.gravatar.com https://secure.gravatar.com; " .
             "font-src 'self' data:; " .
             "connect-src 'self' ws: wss:; " .
             "frame-ancestors 'self';"
